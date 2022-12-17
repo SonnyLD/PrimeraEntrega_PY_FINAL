@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Producto 1 Mesa de comedor",
+    "description": "mesa de madera",
+    "price": 1400,
+    "thumbnail": "Sin imagen",
+    "code": [],
+    "stock": 60
+  },
+  {
+    "id": 1,
+    "title": "Producto 1 Mesa de comedor",
+    "description": "mesa de madera",
+    "price": 1400,
+    "thumbnail": "Sin imagen",
+    "code": [],
+    "stock": 60
+  },
+  {
+    "id": 2,
+    "title": "Producto 2 Sofa de sala",
+    "description": "Producto de sala",
+    "price": 1000,
+    "thumbnail": "Sin imagen",
+    "code": [],
+    "stock": 100
+  },
+  {
+    "id": 2,
+    "title": "Producto 2 Sofa de sala",
+    "description": "Producto de sala",
+    "price": 1000,
+    "thumbnail": "Sin imagen",
+    "code": [],
+    "stock": 100
+  }
+]
