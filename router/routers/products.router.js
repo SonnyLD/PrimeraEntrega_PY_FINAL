@@ -1,6 +1,7 @@
 import { Router } from "express";
 import fs from 'fs';
-const products = []
+import { title } from "process";
+
 
 const router = Router();
 
@@ -54,27 +55,26 @@ class ProductManager {
     return this.getProducts.find((products) => products.id === idProducto);
   }
    
-  updateProduct(idProducto) {
-    const products = this.getProductById(this.getProducts);
-    if (products) {
-      idProducto.title = this.title;
-      idProducto.description = this.description;
-    } else{
-      console.log("el producto no existe");
-    }
-   
+  updateProduct(title, data) {
+    for(let products of this.getProducts){
+     if(products.title === title){
+      products = Object.assign(products, data);
+      fs.promises.writeFile('getProducts.json',JSON.stringify(this.getProducts));
+      return products;
+     }  
+    } 
   }
   
-  deleteProduct(idProducto){
-    const products = this.getProductById(this.getProducts);
-    if (products) {
-      idProducto.title = this.title;
-     
-    }else{
-     console.log("title not found");
-    }
   
-  }
+  deleteProduct(id, data){
+    for(let products of this.getProducts){
+      if(products.id === id){
+       products = Object.assign(products, data);
+       fs.promises.writeFile('getProducts.json',JSON.stringify(this.getProducts));
+       return products;
+      }  
+     } 
+   }
   
   }
   const productManager = new ProductManager();
@@ -87,29 +87,27 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    productManager.getProducts.push(req.body)
-    res.status(201).json(products);
+    productManager.getProducts.push(req.body) 
+    res.status(201).json(productManager.getProducts);
 
 })
 
-router.put('/',(req, res) => {
-    const products = getProducts(req.params.productoId)
+router.put('/:title',(req, res) => {
+  try {
+    const { title } = req.params;
+    const { body } = req;
+    const newProduct = productManager.updateProduct(title, body);
+    console.log(newProduct);
+    res.json(newProduct);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 
- if (!products) return res.status(404).json({})
-
- products.name = req.body.name
- res.json(products)
-
-})
-
-router.delete('/', (req, res) => {
-    const productsDelete = getproductsDelete(req.params.productoId)
-
- if (productsDelete === -1) return res.status(404).json({})
-
- products.splice(productsDelete, 1)
- res.json(products)
-
+router.delete('/:id', (req, res) => {
+  let products = productManager.deleteProduct(item => item.id === req.query.id);
+ productManager.deleteProduct(products, 1);
+ res.sendStatus(200);
 });
 
 export default router

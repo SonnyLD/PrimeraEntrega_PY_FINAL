@@ -1,6 +1,5 @@
 import { Router } from "express";
 import fs from 'fs';
-const carts = []
 
 const router = Router()
 
@@ -44,69 +43,29 @@ class CartsManager {
     this.getCarts.map((carts) => {
       if (carts.id > maxId) maxId = carts.id
     });
+    
     return maxId;
+    
   }
   #getCarts(idProducto) {
     return this.getCarts.find((carts) => carts.id === idProducto);
   }
    
-  updateCarts(idProducto) {
-    const carts = this.getProductById(this.getCarts);
-    if (carts) {
-      idProducto.title = this.title;
-      
-    } else{
-      console.log("el producto no existe");
-    }
-   
-  }
-  
-  deleteCarts(idProducto){
-    const carts = this.getProductById(this.getCarts);
-    if (carts) {
-      idProducto.title = this.title;
-     
-    }else{
-     console.log("title not found");
-    }
-  
-  }
-  
   }
   const cartsManager = new CartsManager();
   cartsManager.addCarts("Producto 1 Mesa de comedor", "mesa de madera");
   cartsManager.addCarts("Producto 2 Sofa de sala", "Producto de sala");
   cartsManager.addCarts("Producto 3 silla", "silla de cocina");
 
-router.get('/', (req, res) => {
+router.get('/:cid', (req, res) => {
     res.json(cartsManager.getCarts)
 })
 
-router.post('/', (req, res) => {
+router.post('/cid/product/:pid', (req, res) => {
     cartsManager.getCarts.push(req.body)
-    res.status(201).json(carts);
+    res.status(201).json(cartsManager.getCarts);
 
 })
-router.put('/',(req, res) => {
-    const carts = getCarts(req.params.productoId)
-
- if (!carts) return res.status(404).json({})
-
- carts.name = req.body.name
- res.json(carts)
-
-})
-
-router.delete('/', (req, res) => {
-    const cartsDelete = getcartsDelete(req.params.productoId)
-
- if (cartsDelete === -1) return res.status(404).json({})
-
- carts.splice(cartsDelete, 1)
- res.json(carts)
-
-});
-
 
 export default router
 
